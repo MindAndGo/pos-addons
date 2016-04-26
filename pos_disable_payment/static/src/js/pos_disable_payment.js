@@ -49,6 +49,7 @@ odoo.define('pos_disable_payment', function (require) {
             this._super.apply(this, arguments);
             this.pos.bind('change:selectedOrder', this.check_allow_delete_order, this)
             this.pos.bind('change:cashier', this.check_allow_delete_order, this)
+            this.pos.bind('change:client', this.check_allow_delete_order, this)
         },
         check_allow_delete_order: function () {
             var user = this.pos.cashier || this.pos.user;
@@ -83,6 +84,23 @@ odoo.define('pos_disable_payment', function (require) {
         }
     })
 
+    screens.ClientListScreenWidget.include({
+        save_changes: function () {
+            this._super();
+//            this.trigger('change:client', this);
+//            this.checkPayAllowed();
+            this.trigger('change:cashier', this);
+        },
+        checkPayAllowed: function () {
+            var user = this.pos.cashier || this.pos.user;
+            var config = this.pos.config;
+            if (!user.allow_payments || !config.allow_payments) {
+//                this.actionpad.$('.pay').hide()
+            } else {
+//                this.actionpad.$('.pay').show()
+            }
+        }
+    });
     // Here regular binding (in init) do not work for some reasons. We got to put binding method in renderElement.
     screens.ProductScreenWidget.include({
         init: function () {
