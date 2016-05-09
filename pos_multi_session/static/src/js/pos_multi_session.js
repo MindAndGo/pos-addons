@@ -233,7 +233,10 @@ odoo.define('pos_multi_session', function(require){
                 }
                 if(dline.discount !== undefined){
                     line.set_discount(dline.discount);
-                }
+                }                
+                if(dline.note !== ""){
+                    line.note = dline.note;
+                }               
                 order.orderlines.add(line)
             })
 
