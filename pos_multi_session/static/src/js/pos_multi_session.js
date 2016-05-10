@@ -236,7 +236,14 @@ odoo.define('pos_multi_session', function(require){
                 }                
                 if(dline.note !== ""){
                     line.note = dline.note;
-                }               
+                }     
+//                TODO:manage dependencies for setting serial ouside this module
+                if(dline.prodlot_id !== undefined){
+                    console.log('prod_lot_id', dline.prodlot_id );
+                    line.set_serial(dline.prodlot_id);
+                    line.set_serial_id(dline.prodlot_id_id);
+                    
+                }
                 order.orderlines.add(line)
             })
 
@@ -370,6 +377,10 @@ odoo.define('pos_multi_session', function(require){
                 }
             })
             this.uid = this.order.generate_unique_id() + '-' + this.id;
+        },
+        select_orderline:function(){
+            OrderlineSuper.prototype.select_orderline.apply(this, arguments);
+            this.order.trigger('change:sync');
         },
         set_selected: function(){
             this.ms_changing_selected = true;
