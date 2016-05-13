@@ -240,7 +240,7 @@ odoo.define('pos_multi_session', function(require){
 //                TODO:manage dependencies for setting serial ouside this module
                 if(dline.prodlot_id !== undefined){
                     console.log('prod_lot_id', dline.prodlot_id );
-                    line.set_serial(dline.prodlot_id);
+                    line.set_serial(dline.prodlot_id_str);
                     line.set_serial_id(dline.prodlot_id_id);
                     
                 }
